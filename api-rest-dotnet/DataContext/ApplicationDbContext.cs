@@ -9,6 +9,6 @@ namespace api_rest_dotnet.DataContext
       {
       }
 
-      public DbSet<UserModel> User { get; set; }
+      public DbSet<UserModel> Users { get; set; }
     }
 }
