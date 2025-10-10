@@ -121,9 +121,34 @@ namespace api_rest_dotnet.Service.UserService
       return serviceResponse;
     }
 
-    public Task<ServiceResponse<List<UserModel>>> DeleteUser(int id)
+    public async Task<ServiceResponse<UserModel>> DeleteUser(int id)
     {
-      throw new NotImplementedException();
+      ServiceResponse<UserModel> serviceResponse = new ServiceResponse<UserModel>();
+
+      try 
+      {
+        UserModel? user = await _context.Users.FirstOrDefaultAsync(e => e.Id == id);
+
+        if(user == null)
+        {
+          serviceResponse.Data = null;
+          serviceResponse.Message = "User not found!";
+          serviceResponse.Success = false;
+          return serviceResponse;
+        }
+
+        _context.Users.Remove(user);
+        await _context.SaveChangesAsync();
+
+        serviceResponse.Data = user;
+        serviceResponse.Message = "User deleted successfully!";
+      } catch (Exception ex)
+      {
+        serviceResponse.Message = ex.Message;
+        serviceResponse.Success = false;
+      }
+
+      return serviceResponse;
     }
 
     public async Task<ServiceResponse<UserModel>> DeactivateUser(int id)
