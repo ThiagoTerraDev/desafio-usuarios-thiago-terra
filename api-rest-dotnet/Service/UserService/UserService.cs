@@ -127,7 +127,7 @@ namespace api_rest_dotnet.Service.UserService
 
       try 
       {
-        UserModel? user = await _context.Users.FirstOrDefaultAsync(e => e.Id == id);
+        UserModel? user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
 
         if(user == null)
         {
