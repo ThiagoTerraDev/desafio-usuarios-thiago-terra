@@ -95,9 +95,37 @@ namespace api_rest_dotnet.Service.UserService
       throw new NotImplementedException();
     }
 
-    public Task<ServiceResponse<List<UserModel>>> DeactivateUser(int id)
+    public async Task<ServiceResponse<UserModel>> DeactivateUser(int id)
     {
-      throw new NotImplementedException();
+      ServiceResponse<UserModel> serviceResponse = new ServiceResponse<UserModel>();
+
+      try 
+      {
+        UserModel? user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
+
+        if(user == null)
+        {
+          serviceResponse.Data = null;
+          serviceResponse.Message = "User not found!";
+          serviceResponse.Success = false;
+          return serviceResponse;
+        }
+
+        user.Active = false;
+        user.UpdatedAt = DateTime.Now.ToLocalTime();
+
+        _context.Users.Update(user);
+        await _context.SaveChangesAsync();
+
+        serviceResponse.Data = user;
+        serviceResponse.Message = "User deactivated successfully!";
+      } catch (Exception ex)
+      {
+        serviceResponse.Message = ex.Message;
+        serviceResponse.Success = false;
+      }
+
+      return serviceResponse;
     }
   }
 }
