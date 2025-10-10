@@ -146,5 +146,31 @@ namespace api_rest_dotnet.Controllers
         });
       }
     }
+
+    [HttpDelete("{id}")]
+    public async Task<ActionResult<ServiceResponse<UserModel>>> DeleteUser(int id)
+    {
+      try
+      {
+        var serviceResponse = await _userInterface.DeleteUser(id);
+        
+        if (!serviceResponse.Success)
+        {
+          return serviceResponse.Message.Contains("not found", StringComparison.OrdinalIgnoreCase)
+            ? NotFound(serviceResponse)
+            : BadRequest(serviceResponse);
+        }
+        
+        return Ok(serviceResponse);
+      } catch (Exception)
+      {
+        return StatusCode(500, new ServiceResponse<UserModel>
+        {
+          Data = null,
+          Message = "Internal server error",
+          Success = false
+        });
+      }
+    }
   }
 }
