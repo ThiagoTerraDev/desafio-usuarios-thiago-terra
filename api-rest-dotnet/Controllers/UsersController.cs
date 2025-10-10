@@ -50,17 +50,47 @@ namespace api_rest_dotnet.Controllers
         
         if (!serviceResponse.Success)
         {
-            return BadRequest(serviceResponse);
+          return BadRequest(serviceResponse);
         }
         
-        return StatusCode(201, serviceResponse); // todo: return CreatedAtAction(...) with GetUserById to ensure RESTful practices
+        return CreatedAtAction(
+          nameof(GetUserById),
+          new { id = serviceResponse.Data!.Id },
+          serviceResponse
+        );
       } catch (Exception)
       {
         return StatusCode(500, new ServiceResponse<UserModel>
         {
-            Data = null,
-            Message = "Internal server error",
-            Success = false
+          Data = null,
+          Message = "Internal server error",
+          Success = false
+        });
+      }
+    }
+
+    [HttpGet("{id}")]
+    public async Task<ActionResult<ServiceResponse<UserModel>>> GetUserById(int id)
+    {
+      try
+      {
+        var serviceResponse = await _userInterface.GetUserById(id);
+        
+        if (!serviceResponse.Success)
+        {
+          return serviceResponse.Message.Contains("not found", StringComparison.OrdinalIgnoreCase)
+            ? NotFound(serviceResponse)
+            : BadRequest(serviceResponse);
+        }
+        
+        return Ok(serviceResponse);
+      } catch (Exception)
+      {
+        return StatusCode(500, new ServiceResponse<UserModel>
+        {
+          Data = null,
+          Message = "Internal server error",
+          Success = false
         });
       }
     }
