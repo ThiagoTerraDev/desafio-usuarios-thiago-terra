@@ -10,6 +10,6 @@ namespace api_rest_dotnet.Service.UserService
     Task<ServiceResponse<UserModel>> GetUserById(int id);
     Task<ServiceResponse<List<UserModel>>> UpdateUser(UserModel updatedUser);
     Task<ServiceResponse<List<UserModel>>> DeleteUser(int id);
-    Task<ServiceResponse<List<UserModel>>> DeactivateUser(int id);
+    Task<ServiceResponse<UserModel>> DeactivateUser(int id);
   }
 }
