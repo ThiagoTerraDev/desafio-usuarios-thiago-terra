@@ -20,11 +20,49 @@ namespace api_rest_dotnet.Controllers
     [HttpGet]
     public async Task<ActionResult<ServiceResponse<List<UserModel>>>> GetUsers()
     {
-      var serviceResponse = await _userInterface.GetUsers();
+      try
+      {
+        var serviceResponse = await _userInterface.GetUsers();
 
-      return serviceResponse.Success 
-        ? Ok(serviceResponse) 
-        : BadRequest(serviceResponse);
+        if (!serviceResponse.Success)
+        {
+          return BadRequest(serviceResponse);
+        }
+
+        return Ok(serviceResponse);
+      } catch (Exception)
+      {
+        return StatusCode(500, new ServiceResponse<List<UserModel>>
+        {
+          Data = null,
+          Message = "Internal server error",
+          Success = false
+        });
+      }
+    }
+
+    [HttpPost]
+    public async Task<ActionResult<ServiceResponse<UserModel>>> CreateUser(UserModel newUser)
+    {
+      try
+      {
+        var serviceResponse = await _userInterface.CreateUser(newUser);
+        
+        if (!serviceResponse.Success)
+        {
+            return BadRequest(serviceResponse);
+        }
+        
+        return StatusCode(201, serviceResponse); // todo: return CreatedAtAction(...) with GetUserById to ensure RESTful practices
+      } catch (Exception)
+      {
+        return StatusCode(500, new ServiceResponse<UserModel>
+        {
+            Data = null,
+            Message = "Internal server error",
+            Success = false
+        });
+      }
     }
   }
 }
