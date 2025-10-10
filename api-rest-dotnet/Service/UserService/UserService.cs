@@ -85,9 +85,40 @@ namespace api_rest_dotnet.Service.UserService
       return serviceResponse;
     }
 
-    public Task<ServiceResponse<List<UserModel>>> UpdateUser(UserModel updatedUser)
+    public async Task<ServiceResponse<UserModel>> UpdateUser(UserModel updatedUser)
     {
-      throw new NotImplementedException();
+      ServiceResponse<UserModel> serviceResponse = new ServiceResponse<UserModel>();
+
+      try 
+      {
+        UserModel? existingUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == updatedUser.Id);
+
+        if (existingUser == null)
+        {
+          serviceResponse.Data = null;
+          serviceResponse.Message = "User not found!";
+          serviceResponse.Success = false;
+          return serviceResponse;
+        }
+
+        existingUser.Name = updatedUser.Name;
+        existingUser.LastName = updatedUser.LastName;
+        existingUser.Department = updatedUser.Department;
+        existingUser.Active = updatedUser.Active;
+        existingUser.Shift = updatedUser.Shift;
+        existingUser.UpdatedAt = DateTime.Now.ToLocalTime();
+
+        await _context.SaveChangesAsync();
+
+        serviceResponse.Data = existingUser;
+        serviceResponse.Message = "User updated successfully!";
+      } catch (Exception ex)
+      {
+        serviceResponse.Message = ex.Message;
+        serviceResponse.Success = false;
+      }
+
+      return serviceResponse;
     }
 
     public Task<ServiceResponse<List<UserModel>>> DeleteUser(int id)
