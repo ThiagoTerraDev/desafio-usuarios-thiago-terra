@@ -94,5 +94,31 @@ namespace api_rest_dotnet.Controllers
         });
       }
     }
+
+    [HttpPatch("{id}/deactivate")]
+    public async Task<ActionResult<ServiceResponse<UserModel>>> DeactivateUser(int id)
+    {
+      try
+      {
+        var serviceResponse = await _userInterface.DeactivateUser(id);
+        
+        if (!serviceResponse.Success)
+        {
+          return serviceResponse.Message.Contains("not found", StringComparison.OrdinalIgnoreCase)
+            ? NotFound(serviceResponse)
+            : BadRequest(serviceResponse);
+        }
+        
+        return Ok(serviceResponse);
+      } catch (Exception)
+      {
+        return StatusCode(500, new ServiceResponse<UserModel>
+        {
+          Data = null,
+          Message = "Internal server error",
+          Success = false
+        });
+      }
+    }
   }
 }
