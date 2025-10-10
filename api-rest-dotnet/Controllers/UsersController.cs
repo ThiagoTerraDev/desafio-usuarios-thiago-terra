@@ -95,6 +95,32 @@ namespace api_rest_dotnet.Controllers
       }
     }
 
+    [HttpPut]
+    public async Task<ActionResult<ServiceResponse<UserModel>>> UpdateUser(UserModel updatedUser)
+    {
+      try
+      {
+        var serviceResponse = await _userInterface.UpdateUser(updatedUser);
+        
+        if (!serviceResponse.Success)
+        {
+          return serviceResponse.Message.Contains("not found", StringComparison.OrdinalIgnoreCase)
+            ? NotFound(serviceResponse)
+            : BadRequest(serviceResponse);
+        }
+        
+        return Ok(serviceResponse);
+      } catch (Exception)
+      {
+        return StatusCode(500, new ServiceResponse<UserModel>
+        {
+          Data = null,
+          Message = "Internal server error",
+          Success = false
+        });
+      }
+    }
+
     [HttpPatch("{id}/deactivate")]
     public async Task<ActionResult<ServiceResponse<UserModel>>> DeactivateUser(int id)
     {
