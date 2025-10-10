@@ -31,9 +31,32 @@ namespace api_rest_dotnet.Service.UserService
       return serviceResponse;
     }
 
-    public Task<ServiceResponse<List<UserModel>>> CreateUser(UserModel newUser)
+    public async Task<ServiceResponse<UserModel>> CreateUser(UserModel newUser)
     {
-      throw new NotImplementedException();
+      ServiceResponse<UserModel> serviceResponse = new ServiceResponse<UserModel>();
+
+      try 
+      {
+        if(newUser == null)
+        {
+          serviceResponse.Data = null;
+          serviceResponse.Message = "Please provide user data!";
+          serviceResponse.Success = false;
+          return serviceResponse;
+        }
+
+        _context.Users.Add(newUser);
+        await _context.SaveChangesAsync();
+
+        serviceResponse.Data = newUser;
+        serviceResponse.Message = "User created successfully!";
+      } catch (Exception ex)
+      {
+        serviceResponse.Message = ex.Message;
+        serviceResponse.Success = false;
+      }
+
+      return serviceResponse;
     }
 
     public Task<ServiceResponse<UserModel>> GetUserById(int id)
