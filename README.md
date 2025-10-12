@@ -7,7 +7,7 @@ Uma Web API RESTful construída com ASP.NET Core 9.0 para gerenciar dados de usu
 - **.NET 9.0**
 - **ASP.NET Core Web API**
 - **Entity Framework Core 9.0**
-- **Azure SQL Edge**
+- **Azure SQL Edge** (SQL Server engine / Entity Framework compatibility)
 - **Swagger/OpenAPI**
 
 ## 📋 Funcionalidades
@@ -61,45 +61,61 @@ O modelo `UserModel` contém os seguintes campos:
    ```
 
 2. **Inicie o Azure SQL Edge com Docker**
+   
+   > **Importante**: Certifique-se de que o Docker esteja rodando antes de executar o comando abaixo:
+   
    ```bash
    docker run -e ACCEPT_EULA=1 -e MSSQL_SA_PASSWORD=SuaSenhaForte123! -p 1433:1433 --name sqlserver -d mcr.microsoft.com/azure-sql-edge
    ```
    > **Nota**: Substitua `SuaSenhaForte123!` por uma senha forte de sua escolha.
 
-3. **Configure o ambiente de desenvolvimento**
-   
-   O arquivo `appsettings.Development.json` já está incluído no projeto. Certifique-se de que a senha corresponde à senha que você definiu no passo 2:
-   
-   ```json
-   {
-     "ConnectionStrings": {
-       "DefaultConnection": "Data Source=localhost,1433;Initial Catalog=User;User Id=sa;Password=SuaSenhaForte123!;Encrypt=false;TrustServerCertificate=true"
-     }
-   }
+3. **Verifique se o container está rodando**
+   ```bash
+   docker ps
    ```
+   Você deve ver o container `sqlserver` na lista.
 
-4. **Navegue até o diretório do projeto**
+4. **Navegue até o diretório do projeto backend**
    ```bash
    cd api-rest-dotnet
    ```
 
-5. **Restaure as dependências**
+5. **Configure o ambiente de desenvolvimento**
+   
+   Crie um arquivo chamado `appsettings.Development.json` no diretório `api-rest-dotnet` com o seguinte conteúdo:
+   
+   ```json
+   {
+     "Logging": {
+       "LogLevel": {
+         "Default": "Information",
+         "Microsoft.AspNetCore": "Warning"
+       }
+     },
+     "ConnectionStrings": {
+       "DefaultConnection": "Data Source=localhost,1433;Initial Catalog=User;User Id=sa;Password=SuaSenhaForte123!;Encrypt=false;TrustServerCertificate=true"
+     },
+     "AllowedHosts": "*"
+   }
+   ```
+   > **Importante**: Substitua `SuaSenhaForte123!` pela mesma senha que você definiu no passo 2.
+
+6. **Restaure as dependências**
    ```bash
    dotnet restore
    ```
 
-6. **Execute as migrações do banco de dados**
+7. **Execute as migrações do banco de dados**
    ```bash
    dotnet ef database update
    ```
 
-7. **Inicie a aplicação**
+8. **Inicie a aplicação**
    ```bash
    dotnet run
    ```
 
-8. **Acesse a API**
-   - API: `https://localhost:7183` ou `http://localhost:5127`
+9. **Acesse a API**
    - Swagger UI: `https://localhost:7183/swagger` ou `http://localhost:5127/swagger`
 
 ## 🔧 Configuração
@@ -108,7 +124,8 @@ O modelo `UserModel` contém os seguintes campos:
 
 A aplicação usa o Azure SQL Edge com a seguinte configuração padrão para desenvolvimento:
 
-- **Servidor**: localhost,1433
+- **Host**: localhost
+- **Porta**: 1433
 - **Banco de dados**: User
 - **Autenticação**: SQL Server Authentication
 - **Usuário**: sa
