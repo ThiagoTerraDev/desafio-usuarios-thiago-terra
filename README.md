@@ -1,14 +1,20 @@
-# API de Gerenciamento de Usuários
+# Sistema de Gerenciamento de Usuários
 
-Uma Web API RESTful construída com ASP.NET Core 9.0 para gerenciar dados de usuários. Esta aplicação fornece endpoints para operações CRUD em registros de usuários com suporte para diferentes departamentos e turnos de trabalho.
+Uma aplicação Full Stack para gerenciar dados de usuários, composta por uma Web API RESTful construída com ASP.NET Core 9.0 e um frontend em Angular. A aplicação fornece operações CRUD completas com suporte para diferentes departamentos e turnos de trabalho.
 
 ## 🚀 Tech Stack
 
+### Backend
 - **.NET 9.0**
 - **ASP.NET Core Web API**
 - **Entity Framework Core 9.0**
 - **Azure SQL Edge** (SQL Server engine / Entity Framework compatibility)
 - **Swagger/OpenAPI**
+
+### Frontend
+- **Angular**
+- **TypeScript**
+- **Node.js 20.19 LTS**
 
 ## 📋 Funcionalidades
 
@@ -48,11 +54,14 @@ O modelo `UserModel` contém os seguintes campos:
 
 ### Pré-requisitos
 
-- .NET 9.0 SDK
-- Docker (para o Azure SQL Edge)
-- Git
+- **.NET 9.0 SDK**
+- **Docker** - Para o Azure SQL Edge
+- **Node.js 20.19 LTS** (recomendado usar NVM para gerenciar versões)
+- **NVM (Node Version Manager)**
+- **Angular CLI** - Será instalado após configurar o Node.js
+- **Git**
 
-### Instalação
+### Configuração do Backend
 
 1. **Clone o repositório**
    ```bash
@@ -118,7 +127,70 @@ O modelo `UserModel` contém os seguintes campos:
 9. **Acesse a API**
    - Swagger UI: `https://localhost:7183/swagger` ou `http://localhost:5127/swagger`
 
-## 🔧 Configuração
+### Configuração do Frontend
+
+1. **Configure a versão correta do Node.js**
+   
+   O projeto usa Node.js 20.19 LTS. Se você usa o NVM, navegue até o diretório do frontend e execute:
+   
+   ```bash
+   cd front-angular
+   nvm use
+   ```
+   
+   Se a versão 20.19 não estiver instalada, o NVM irá instalar automaticamente:
+   
+   ```bash
+   nvm install
+   ```
+   
+   > **Nota**: O arquivo `.nvmrc` no diretório `front-angular` especifica automaticamente a versão 20.19 do Node.js. Ao executar `nvm use` ou `nvm install` sem argumentos, o NVM lerá este arquivo automaticamente.
+
+2. **Instale o Angular CLI globalmente**
+   ```bash
+   npm install -g @angular/cli
+   ```
+
+3. **Instale as dependências do projeto**
+   ```bash
+   npm install
+   ```
+
+4. **Inicie o servidor de desenvolvimento**
+   ```bash
+   ng serve
+   ```
+   
+   Ou para abrir automaticamente no navegador:
+   ```bash
+   ng serve --open
+   ```
+
+5. **Acesse a aplicação**
+   - Frontend: `http://localhost:4200`
+
+### Executando o Projeto Completo
+
+Para executar tanto o backend quanto o frontend:
+
+1. **Terminal 1 - Backend**:
+   ```bash
+   cd api-rest-dotnet
+   dotnet run
+   ```
+
+2. **Terminal 2 - Frontend**:
+   ```bash
+   cd front-angular
+   nvm use  # Garante que está usando Node.js 20.19
+   ng serve
+   ```
+
+3. **Acesse**:
+   - Frontend: `http://localhost:4200`
+   - API (Swagger): `https://localhost:7183/swagger`
+
+## 🔧 Setup Geral
 
 ### Conexão com o Banco de Dados
 
