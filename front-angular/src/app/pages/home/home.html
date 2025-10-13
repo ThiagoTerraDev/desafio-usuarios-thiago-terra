@@ -1,1 +1,46 @@
-<p>home works!</p>
+
+<div class="user-box">
+  <button>Cadastrar novo usuário</button>
+  <div class="input-box">
+    <label>Buscar:</label>
+    <input type="text" placeholder="Informe o nome do usuário desejado..." (input)="search($event)"/>
+  </div>
+</div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Nome</th>
+      <th>Sobrenome</th>
+      <th>Departamento</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (user of users; track user.id) {
+      <tr>
+        <td>
+          <img [src]="user.active ? '/images/Active.png' : '/images/Inactive.png'"
+               [alt]="user.active ? 'Usuário ativo' : 'Usuário inativo'"
+               style="height: 20px; width: 20px;">
+        </td>
+        <td>{{ user.name }}</td>
+        <td>{{ user.lastName }}</td>
+        <td>{{ user.department }}</td>
+        <td>
+          <button>Editar</button>
+          <button>Detalhes</button>
+        </td>
+        <td>
+          <button>Excluir</button>
+        </td>
+      </tr>
+    } @empty {
+      <tr>
+        <td colspan="6">Nenhum usuário encontrado</td>
+      </tr>
+    }
+  </tbody>
+</table>
