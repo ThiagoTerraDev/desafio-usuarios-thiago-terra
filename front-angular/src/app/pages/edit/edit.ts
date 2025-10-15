@@ -12,11 +12,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class Edit implements OnInit{
 
-  constructor(private userService : UserService, private route: ActivatedRoute, private router: Router) { }
-
   btnTitle: string = 'Editar Usuário';
   btnAction: string = 'Editar';
-  userData! : User;
+  userData?: User;
+
+  constructor(private userService: UserService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
     const userId = Number(this.route.snapshot.paramMap.get('id'));
