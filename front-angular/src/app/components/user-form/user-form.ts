@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { User } from '../../models/user';
 
 @Component({
   selector: 'app-user-form',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './user-form.html',
   styleUrl: './user-form.css'
 })
@@ -17,8 +17,6 @@ export class UserForm implements OnInit {
   @Input() userData: User | null = null;
 
   userForm!: FormGroup;
-
-  constructor(private router: Router) { }
 
   ngOnInit(): void {
     this.userForm = new FormGroup({
@@ -35,10 +33,6 @@ export class UserForm implements OnInit {
 
   submit(): void {
     this.onSubmit.emit(this.userForm.value);
-  }
-
-  goBack(): void {
-    this.router.navigate(['/']);
   }
 
 }
