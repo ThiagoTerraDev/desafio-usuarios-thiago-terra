@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { User } from '../../models/user';
 
 @Component({
   selector: 'app-home',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './home.html',
   styleUrl: './home.css'
 })
@@ -27,8 +28,6 @@ export class Home implements OnInit {
 
         this.users = data;
         this.allUsers = data;
-
-        console.log('Users fetched successfully:', this.users);
       },
       error: (error) => {
         console.error('Error:', error);
