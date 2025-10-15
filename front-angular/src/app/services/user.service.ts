@@ -30,5 +30,9 @@ export class UserService {
   EditUser(user: User) : Observable<Response<User>> {
     return this.http.put<Response<User>>(this.apiUrl, user);
   }
+
+  DeactivateUser(id: number) : Observable<Response<User>> {
+    return this.http.patch<Response<User>>(`${this.apiUrl}/${id}/deactivate`, {});
+  }
 }
 
