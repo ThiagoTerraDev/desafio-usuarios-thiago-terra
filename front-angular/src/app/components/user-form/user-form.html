@@ -1,0 +1,35 @@
+<h1>{{ btnTitle }}</h1>
+<form [formGroup]="userForm" (ngSubmit)="submit()">
+  <input type="hidden" formControlName="id" />
+
+  <div class="input-box">
+    <label for="">Nome:</label>
+    <input type="text" formControlName="name" placeholder="Informe o nome..." required />
+  </div>
+  <div class="input-box">
+    <label for="">Sobrenome:</label>
+    <input type="text" formControlName="lastName" placeholder="Informe o sobrenome..." required />
+  </div>
+  <div class="input-box">
+    <label for="">Departamento:</label>
+    <select id="departamento" formControlName="department" required>
+      <option value="RH">RH</option>
+      <option value="Financeiro">Financeiro</option>
+      <option value="Compras">Compras</option>
+      <option value="Atendimento">Atendimento</option>
+      <option value="Zeladoria">Zeladoria</option>
+    </select>
+  </div>
+  <div class="input-box">
+    <label for="">Turno:</label>
+    <select id="turno" formControlName="shift" required>
+      <option value="Manha">Manha</option>
+      <option value="Tarde">Tarde</option>
+      <option value="Noite">Noite</option>
+    </select>
+  </div>
+  <div class="btn-box">
+    <button type="submit" [disabled]="!userForm.valid">{{ btnAction }}</button>
+    <button type="button" (click)="goBack()">Voltar</button>
+  </div>
+</form>
