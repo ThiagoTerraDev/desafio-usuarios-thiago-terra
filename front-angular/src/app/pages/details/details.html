@@ -1,0 +1,42 @@
+<div>
+  <h1>Detalhes Usuário</h1>
+</div>
+
+@if (userData) {
+  <div>
+    <form>
+      <div class="input-box">
+        <label>Nome:</label>
+        <input type="text" [value]="userData.name" disabled/>
+      </div>
+      <div class="input-box">
+        <label>Sobrenome:</label>
+        <input type="text" [value]="userData.lastName" disabled/>
+      </div>
+      <div class="input-box">
+        <label>Departamento:</label>
+        <input type="text" [value]="userData.department" disabled/>
+      </div>
+      <div class="input-box">
+        <label>Turno:</label>
+        <input type="text" [value]="userData.shift" disabled/>
+      </div>
+      <div class="input-box">
+        <label>Situação:</label>
+        <input type="text" [value]="userData.active ? 'Ativo' : 'Inativo'" disabled/>
+      </div>
+      <div class="input-box">
+        <label>Data de criação:</label>
+        <input type="text" [value]="userData.createdAt" disabled/>
+      </div>
+      <div class="input-box">
+        <label>Data de alteração:</label>
+        <input type="text" [value]="userData.updatedAt" disabled/>
+      </div>
+      <div class="btn-box">
+        <button type="button" (click)="deactivateUser()" [disabled]="!userData.active">Inativar Usuário</button>
+        <button type="button" routerLink="">Voltar</button>
+      </div>
+    </form>
+  </div>
+}

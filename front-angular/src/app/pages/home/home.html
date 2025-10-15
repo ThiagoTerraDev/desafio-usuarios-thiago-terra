@@ -30,8 +30,8 @@
         <td>{{ user.lastName }}</td>
         <td>{{ user.department }}</td>
         <td>
-          <button routerLink="/edit/{{ user.id }}">Editar</button>
-          <button>Detalhes</button>
+          <button [routerLink]="['/edit', user.id]">Editar</button>
+          <button [routerLink]="['/details', user.id]">Detalhes</button>
         </td>
         <td>
           <button>Excluir</button>
