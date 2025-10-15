@@ -1,0 +1,9 @@
+@if (userData) {
+  <app-user-form
+    [btnTitle]="btnTitle"
+    [btnAction]="btnAction"
+    [userData]="userData"
+    (onSubmit)="editUser($event)"
+  >
+  </app-user-form>
+}
