@@ -1,35 +1,54 @@
-<h1>{{ btnTitle }}</h1>
-<form [formGroup]="userForm" (ngSubmit)="submit()">
-  <input type="hidden" formControlName="id" />
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>{{ formTitle }}</mat-card-title>
+  </mat-card-header>
 
-  <div class="input-box">
-    <label for="">Nome:</label>
-    <input type="text" formControlName="name" placeholder="Informe o nome..." required />
-  </div>
-  <div class="input-box">
-    <label for="">Sobrenome:</label>
-    <input type="text" formControlName="lastName" placeholder="Informe o sobrenome..." required />
-  </div>
-  <div class="input-box">
-    <label for="">Departamento:</label>
-    <select id="departamento" formControlName="department" required>
-      <option value="RH">RH</option>
-      <option value="Financeiro">Financeiro</option>
-      <option value="Compras">Compras</option>
-      <option value="Atendimento">Atendimento</option>
-      <option value="Zeladoria">Zeladoria</option>
-    </select>
-  </div>
-  <div class="input-box">
-    <label for="">Turno:</label>
-    <select id="turno" formControlName="shift" required>
-      <option value="Manha">Manha</option>
-      <option value="Tarde">Tarde</option>
-      <option value="Noite">Noite</option>
-    </select>
-  </div>
-  <div class="btn-box">
-    <button type="submit" [disabled]="!userForm.valid">{{ btnAction }}</button>
-    <button type="button" routerLink="">Voltar</button>
-  </div>
-</form>
+  <mat-card-content>
+    <form [formGroup]="userForm" (ngSubmit)="submit()">
+      <input type="hidden" formControlName="id" />
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Nome</mat-label>
+        <input matInput formControlName="name" placeholder="Informe o nome..." required />
+        <mat-error>Nome é obrigatório</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Sobrenome</mat-label>
+        <input matInput formControlName="lastName" placeholder="Informe o sobrenome..." required />
+        <mat-error>Sobrenome é obrigatório</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Departamento</mat-label>
+        <mat-select formControlName="department" required>
+          <mat-option value="RH">RH</mat-option>
+          <mat-option value="Financeiro">Financeiro</mat-option>
+          <mat-option value="Compras">Compras</mat-option>
+          <mat-option value="Atendimento">Atendimento</mat-option>
+          <mat-option value="Zeladoria">Zeladoria</mat-option>
+        </mat-select>
+        <mat-error>Departamento é obrigatório</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Turno</mat-label>
+        <mat-select formControlName="shift" required>
+          <mat-option value="Manha">Manhã</mat-option>
+          <mat-option value="Tarde">Tarde</mat-option>
+          <mat-option value="Noite">Noite</mat-option>
+        </mat-select>
+        <mat-error>Turno é obrigatório</mat-error>
+      </mat-form-field>
+
+      <div class="btn-box">
+        <button mat-stroked-button type="button" routerLink="">
+          Voltar
+        </button>
+        <button mat-raised-button color="primary" type="submit" [disabled]="!userForm.valid">
+          {{ btnAction }}
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

@@ -1,18 +1,31 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import { User } from '../../models/user';
 
 @Component({
   selector: 'app-user-form',
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [
+    ReactiveFormsModule,
+    RouterLink,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatCardModule
+  ],
   templateUrl: './user-form.html',
   styleUrl: './user-form.css'
 })
 export class UserForm implements OnInit {
 
   @Output() onSubmit = new EventEmitter<User>();
-  @Input() btnTitle!: string;
+  @Input() formTitle!: string;
   @Input() btnAction!: string;
   @Input() userData: User | null = null;
 
