@@ -12,7 +12,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class Edit implements OnInit{
 
-  btnTitle: string = 'Editar Usuário';
+  formTitle: string = 'Editar Usuário';
   btnAction: string = 'Editar';
   userData?: User;
 

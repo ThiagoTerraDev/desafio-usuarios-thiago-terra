@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 })
 export class Register {
 
-  btnTitle: string = 'Cadastrar Usuário';
+  formTitle: string = 'Cadastrar Usuário';
   btnAction: string = 'Cadastrar';
 
   constructor(private userService: UserService, private router: Router) { }
