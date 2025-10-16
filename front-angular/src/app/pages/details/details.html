@@ -1,42 +1,83 @@
-<div>
-  <h1>Detalhes Usuário</h1>
-</div>
-
 @if (userData) {
-  <div>
-    <form>
-      <div class="input-box">
-        <label>Nome:</label>
-        <input type="text" [value]="userData.name" disabled/>
+  <mat-card class="details-card">
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon>person</mat-icon>
+        Detalhes do Usuário
+      </mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <div class="status-chip">
+        <mat-chip [highlighted]="userData.active">
+          <mat-icon>{{ userData.active ? 'check_circle' : 'cancel' }}</mat-icon>
+          {{ userData.active ? 'Usuário Ativo' : 'Usuário Inativo' }}
+        </mat-chip>
       </div>
-      <div class="input-box">
-        <label>Sobrenome:</label>
-        <input type="text" [value]="userData.lastName" disabled/>
+
+      <mat-divider></mat-divider>
+
+      <div class="info-section">
+        <h3>Informações Pessoais</h3>
+        <div class="info-grid">
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Nome</mat-label>
+            <input matInput [value]="userData.name" readonly />
+          </mat-form-field>
+
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Sobrenome</mat-label>
+            <input matInput [value]="userData.lastName" readonly />
+          </mat-form-field>
+        </div>
       </div>
-      <div class="input-box">
-        <label>Departamento:</label>
-        <input type="text" [value]="userData.department" disabled/>
+
+      <mat-divider></mat-divider>
+
+      <div class="info-section">
+        <h3>Seção Profissional</h3>
+        <div class="info-grid">
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Departamento</mat-label>
+            <input matInput [value]="userData.department" readonly />
+          </mat-form-field>
+
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Turno</mat-label>
+            <input matInput [value]="userData.shift" readonly />
+          </mat-form-field>
+        </div>
       </div>
-      <div class="input-box">
-        <label>Turno:</label>
-        <input type="text" [value]="userData.shift" disabled/>
+
+      <mat-divider></mat-divider>
+
+      <div class="info-section">
+        <h3>Dados no Sistema</h3>
+        <div class="info-grid">
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Data de Criação</mat-label>
+            <input matInput [value]="userData.createdAt" readonly />
+            <mat-icon matPrefix>event</mat-icon>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Última Atualização</mat-label>
+            <input matInput [value]="userData.updatedAt" readonly />
+            <mat-icon matPrefix>update</mat-icon>
+          </mat-form-field>
+        </div>
       </div>
-      <div class="input-box">
-        <label>Situação:</label>
-        <input type="text" [value]="userData.active ? 'Ativo' : 'Inativo'" disabled/>
+
+      <div class="actions-section">
+        <button mat-stroked-button routerLink="">
+          <mat-icon>arrow_back</mat-icon>
+          Voltar
+        </button>
+        <button mat-raised-button color="warn" (click)="deactivateUser()" [disabled]="!userData.active">
+          <mat-icon>block</mat-icon>
+          Inativar Usuário
+        </button>
       </div>
-      <div class="input-box">
-        <label>Data de criação:</label>
-        <input type="text" [value]="userData.createdAt" disabled/>
-      </div>
-      <div class="input-box">
-        <label>Data de alteração:</label>
-        <input type="text" [value]="userData.updatedAt" disabled/>
-      </div>
-      <div class="btn-box">
-        <button type="button" (click)="deactivateUser()" [disabled]="!userData.active">Inativar Usuário</button>
-        <button type="button" routerLink="">Voltar</button>
-      </div>
-    </form>
-  </div>
+    </mat-card-content>
+  </mat-card>
 }

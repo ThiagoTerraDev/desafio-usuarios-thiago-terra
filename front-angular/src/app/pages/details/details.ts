@@ -1,11 +1,27 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
 import { UserService } from '../../services/user.service';
 import { User } from '../../models/user';
 
 @Component({
   selector: 'app-details',
-  imports: [RouterLink],
+  imports: [
+    RouterLink,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatChipsModule,
+    MatIconModule,
+    MatDividerModule
+  ],
   templateUrl: './details.html',
   styleUrl: './details.css'
 })
