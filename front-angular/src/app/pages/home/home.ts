@@ -1,11 +1,29 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTableModule } from '@angular/material/table';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatCardModule } from '@angular/material/card';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { UserService } from '../../services/user.service';
 import { User } from '../../models/user';
 
 @Component({
   selector: 'app-home',
-  imports: [RouterLink],
+  imports: [
+    RouterLink,
+    MatButtonModule,
+    MatIconModule,
+    MatTableModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCardModule,
+    MatChipsModule,
+    MatTooltipModule
+  ],
   templateUrl: './home.html',
   styleUrl: './home.css'
 })
@@ -13,6 +31,7 @@ export class Home implements OnInit {
 
   users: User[] = [];
   allUsers: User[] = [];
+  displayedColumns: string[] = ['status', 'name', 'lastName', 'department', 'actions'];
 
   constructor(private userService: UserService) { }
 
