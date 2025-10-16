@@ -125,7 +125,7 @@ O modelo `UserModel` contém os seguintes campos:
    ```
 
 9. **Acesse a API**
-   - Swagger UI: `https://localhost:7183/swagger` ou `http://localhost:5127/swagger`
+   - Swagger UI: `http://localhost:5127/swagger` (padrão) ou `https://localhost:7183/swagger` (requer configuração HTTPS)
 
 ### Configuração do Frontend
 
@@ -188,7 +188,7 @@ Para executar tanto o backend quanto o frontend:
 
 3. **Acesse**:
    - Frontend: `http://localhost:4200`
-   - API (Swagger): `https://localhost:7183/swagger`
+   - API (Swagger): `http://localhost:5127/swagger`
 
 ## 🔧 Setup Geral
 
@@ -208,19 +208,73 @@ A aplicação usa o Azure SQL Edge com a seguinte configuração padrão para de
 - **Produção**: Usa `appsettings.json` (connection string placeholder por segurança)
 - **Desenvolvimento/Localhost**: Usa `appsettings.Development.json` (inclui connection string real)
 
-### Confiar no Certificado de Desenvolvimento (Opcional)
+### 🔌 Configuração de Protocolo (HTTP vs HTTPS)
 
-Se você encontrar avisos de certificado SSL, pode confiar no certificado de desenvolvimento:
+Por padrão, este projeto está configurado para usar **HTTP** em desenvolvimento (mais simples e sem problemas de certificados). O backend .NET roda simultaneamente em ambas as portas:
+- **HTTP**: `http://localhost:5127` (padrão configurado)
+- **HTTPS**: `https://localhost:7183` (disponível, mas requer configuração)
 
-```bash
-dotnet dev-certs https --trust
-```
+#### ✅ Configuração Padrão: HTTP
+
+O projeto já está configurado para usar HTTP. Basta executar os comandos e tudo funcionará:
+
+- **Backend**: `http://localhost:5127`
+- **Swagger**: `http://localhost:5127/swagger`
+- **Frontend**: `http://localhost:4200` (conecta ao backend via HTTP)
+
+**Nenhuma configuração adicional necessária!**
+
+#### 🔒 Alternativa: Usar HTTPS
+
+Se você preferir usar HTTPS (protocolo mais seguro para produção), siga estes passos:
+
+1. **Confie no certificado de desenvolvimento**:
+   ```bash
+   dotnet dev-certs https --trust
+   ```
+   
+   Este comando irá:
+   - Criar um certificado de desenvolvimento local (se não existir)
+   - Adicionar o certificado aos certificados confiáveis do seu sistema operacional
+   - Solicitar sua senha de administrador para confirmar
+
+2. **Configure o frontend para usar HTTPS**:
+   
+   Edite os arquivos de environment do Angular:
+   
+   **`front-angular/src/environments/environment.ts`**
+   ```typescript
+   export const environment = {
+     ApiUrl: 'https://localhost:7183/api',
+   };
+   ```
+   
+   **`front-angular/src/environments/environment.development.ts`**
+   ```typescript
+   export const environment = {
+     ApiUrl: 'https://localhost:7183/api',
+   };
+   ```
+
+3. **Descomente a linha no backend**:
+   
+   No arquivo `api-rest-dotnet/Program.cs`, descomente a linha:
+   ```csharp
+   app.UseHttpsRedirection();
+   ```
+
+4. **Reinicie ambos os servidores** (backend e frontend)
+
+5. **Acesse via HTTPS**:
+   - Backend: `https://localhost:7183`
+   - Swagger: `https://localhost:7183/swagger`
+   - Frontend: `http://localhost:4200` (conecta ao backend via HTTPS)
 
 ## 📚 Documentação da API
 
 Após iniciar a aplicação, você pode acessar a documentação interativa da API através do Swagger UI em:
-- `https://localhost:7183/swagger` (HTTPS)
-- `http://localhost:5127/swagger` (HTTP)
+- `http://localhost:5127/swagger` (HTTP - padrão)
+- `https://localhost:7183/swagger` (HTTPS - requer configuração adicional)
 
 ## 🛠️ Desenvolvimento
 
