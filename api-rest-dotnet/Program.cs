@@ -33,7 +33,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// HTTPS Redirection: Descomente a linha abaixo se quiser forçar HTTPS
+// Lembre-se de executar: dotnet dev-certs https --trust
+// E alterar os environments do Angular para usar https://localhost:7183/api
+// app.UseHttpsRedirection();
 
 app.UseCors("AllowAngularApp");
 
