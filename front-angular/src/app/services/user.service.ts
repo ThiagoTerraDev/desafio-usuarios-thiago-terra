@@ -34,5 +34,9 @@ export class UserService {
   DeactivateUser(id: number) : Observable<Response<User>> {
     return this.http.patch<Response<User>>(`${this.apiUrl}/${id}/deactivate`, {});
   }
+
+  DeleteUser(id: number) : Observable<Response<User>> {
+    return this.http.delete<Response<User>>(`${this.apiUrl}/${id}`);
+  }
 }
 
