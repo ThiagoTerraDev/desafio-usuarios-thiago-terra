@@ -40,8 +40,8 @@ export class Details implements OnInit {
         next: (response) => {
           const { data } = response;
 
-          data.createdAt = new Date(data.createdAt!).toLocaleDateString('pt-BR')
-          data.updatedAt = new Date(data.updatedAt!).toLocaleDateString('pt-BR')
+          data.createdAt = this.formatDateTime(data.createdAt!);
+          data.updatedAt = this.formatDateTime(data.updatedAt!);
 
           this.userData = response.data;
         },
@@ -82,6 +82,16 @@ export class Details implements OnInit {
         console.log('Request to deactivate user completed.');
       }
     });
+  }
+
+  private formatDateTime(dateString: string): string {
+    const localDate = new Date(dateString + 'Z');
+
+    const day = String(localDate.getDate()).padStart(2, '0');
+    const month = String(localDate.getMonth() + 1).padStart(2, '0');
+    const year = localDate.getFullYear();
+
+    return `${day}/${month}/${year}`;
   }
 
 }
