@@ -106,7 +106,7 @@ namespace api_rest_dotnet.Service.UserService
         existingUser.Department = updatedUser.Department;
         existingUser.Active = updatedUser.Active;
         existingUser.Shift = updatedUser.Shift;
-        existingUser.UpdatedAt = DateTime.Now.ToLocalTime();
+        existingUser.UpdatedAt = DateTime.UtcNow;
 
         await _context.SaveChangesAsync();
 
@@ -168,7 +168,7 @@ namespace api_rest_dotnet.Service.UserService
         }
 
         user.Active = false;
-        user.UpdatedAt = DateTime.Now.ToLocalTime();
+        user.UpdatedAt = DateTime.UtcNow;
 
         _context.Users.Update(user);
         await _context.SaveChangesAsync();
