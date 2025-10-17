@@ -1,0 +1,63 @@
+<div class="delete-dialog">
+  <h2 mat-dialog-title>
+    <mat-icon class="warning-icon">warning</mat-icon>
+    Confirmar Exclusão
+  </h2>
+
+  <mat-dialog-content>
+    <p class="warning-message">
+      Você está prestes a excluir permanentemente este usuário. Esta ação não pode ser desfeita.
+    </p>
+
+    <div class="user-info">
+      <h3>Informações do Usuário:</h3>
+      <div class="info-item">
+        <mat-icon>person</mat-icon>
+        <span><strong>Nome completo:</strong> {{ user.name }} {{ user.lastName }}</span>
+      </div>
+      <div class="info-item">
+        <mat-icon>business</mat-icon>
+        <span><strong>Departamento:</strong> {{ user.department }}</span>
+      </div>
+      <div class="info-item">
+        <mat-icon>schedule</mat-icon>
+        <span><strong>Turno:</strong> {{ user.shift }}</span>
+      </div>
+    </div>
+
+    @if (errorMessage) {
+      <div class="error-message">
+        <mat-icon>error</mat-icon>
+        {{ errorMessage }}
+      </div>
+    }
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <button
+      mat-stroked-button
+      (click)="onCancel()"
+      [disabled]="isDeleting"
+    >
+      <mat-icon>close</mat-icon>
+      <span>Cancelar</span>
+    </button>
+    @if (isDeleting) {
+      <button
+        mat-raised-button
+        [disabled]="true"
+      >
+        <mat-spinner diameter="20"></mat-spinner>
+        <span>Excluindo...</span>
+      </button>
+    } @else {
+      <button
+        mat-raised-button
+        (click)="onConfirm()"
+      >
+        <mat-icon>delete_forever</mat-icon>
+        <span>Excluir</span>
+      </button>
+    }
+  </mat-dialog-actions>
+</div>
