@@ -59,6 +59,12 @@ mat-divider {
   gap: 1rem;
 }
 
+.info-grid-three {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
 .full-width {
   width: 100%;
 }
@@ -88,7 +94,8 @@ mat-divider {
     margin: 1rem;
   }
 
-  .info-grid {
+  .info-grid,
+  .info-grid-three {
     grid-template-columns: 1fr;
   }
 
