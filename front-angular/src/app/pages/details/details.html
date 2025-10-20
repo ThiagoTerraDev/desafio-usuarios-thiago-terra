@@ -79,10 +79,16 @@
           <mat-icon>arrow_back</mat-icon>
           Voltar
         </button>
-        <button mat-raised-button color="warn" (click)="deactivateUser()" [disabled]="!userData.active">
-          <mat-icon>block</mat-icon>
-          Inativar Usuário
-        </button>
+        <span [matTooltip]="isCurrentUser() ? 'Você não pode desativar sua própria conta' : (!userData.active ? 'Usuário já está inativo' : 'Inativar usuário')">
+          <button
+            mat-raised-button
+            color="warn"
+            (click)="deactivateUser()"
+            [disabled]="!userData.active || isCurrentUser()">
+            <mat-icon>block</mat-icon>
+            Inativar Usuário
+          </button>
+        </span>
       </div>
     </mat-card-content>
   </mat-card>

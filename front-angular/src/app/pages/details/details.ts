@@ -7,7 +7,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { UserService } from '../../services/user.service';
+import { AuthService } from '../../services/auth.service';
 import { User } from '../../models/user';
 
 @Component({
@@ -20,7 +22,8 @@ import { User } from '../../models/user';
     MatButtonModule,
     MatChipsModule,
     MatIconModule,
-    MatDividerModule
+    MatDividerModule,
+    MatTooltipModule
   ],
   templateUrl: './details.html',
   styleUrl: './details.css'
@@ -30,7 +33,12 @@ export class Details implements OnInit {
   userData?: User;
   userId!: number;
 
-  constructor(private userService: UserService, private route: ActivatedRoute, private router: Router) {}
+  constructor(
+    private userService: UserService,
+    private authService: AuthService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.userId = Number(this.route.snapshot.paramMap.get('id'));
@@ -92,6 +100,11 @@ export class Details implements OnInit {
     const year = localDate.getFullYear();
 
     return `${day}/${month}/${year}`;
+  }
+
+  isCurrentUser(): boolean {
+    const currentUserId = this.authService.currentUserValue?.userId;
+    return currentUserId === this.userId;
   }
 
 }

@@ -6,6 +6,7 @@ using api_rest_dotnet.DTOs;
 using System.Threading.Tasks;
 using api_rest_dotnet.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace api_rest_dotnet.Controllers
 {
@@ -133,6 +134,18 @@ namespace api_rest_dotnet.Controllers
     {
       try
       {
+        var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        if (currentUserId != null && int.Parse(currentUserId) == id)
+        {
+          return BadRequest(new ServiceResponse<UserModel>
+          {
+            Data = null,
+            Message = "Você não pode desativar sua própria conta",
+            Success = false
+          });
+        }
+
         var serviceResponse = await _userInterface.DeactivateUser(id);
         
         if (!serviceResponse.Success)
@@ -160,6 +173,18 @@ namespace api_rest_dotnet.Controllers
     {
       try
       {
+        var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        if (currentUserId != null && int.Parse(currentUserId) == id)
+        {
+          return BadRequest(new ServiceResponse<UserModel>
+          {
+            Data = null,
+            Message = "Você não pode excluir sua própria conta",
+            Success = false
+          });
+        }
+
         var serviceResponse = await _userInterface.DeleteUser(id);
         
         if (!serviceResponse.Success)

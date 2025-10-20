@@ -87,4 +87,12 @@ export class Dashboard implements OnInit {
   logout(): void {
     this.authService.logout();
   }
+
+  getCurrentUserId(): number | null {
+    return this.authService.currentUserValue?.userId || null;
+  }
+
+  isCurrentUser(userId: number): boolean {
+    return this.getCurrentUserId() === userId;
+  }
 }

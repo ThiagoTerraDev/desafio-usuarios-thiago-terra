@@ -61,9 +61,14 @@
             <button mat-icon-button [routerLink]="['/details', user.id]" matTooltip="Detalhes">
               <mat-icon>visibility</mat-icon>
             </button>
-            <button mat-icon-button (click)="openDeleteDialog(user)" matTooltip="Excluir">
-              <mat-icon>delete</mat-icon>
-            </button>
+            <span [matTooltip]="isCurrentUser(user.id!) ? 'Você não pode excluir sua própria conta' : 'Excluir'">
+              <button
+                mat-icon-button
+                (click)="openDeleteDialog(user)"
+                [disabled]="isCurrentUser(user.id!)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </span>
           </td>
         </ng-container>
 
