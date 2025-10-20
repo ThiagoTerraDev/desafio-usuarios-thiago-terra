@@ -1,9 +1,15 @@
 <div class="header-container">
   <h1>Gerenciamento de Usuários</h1>
-  <button mat-raised-button color="primary" routerLink="/register">
-    <mat-icon>person_add</mat-icon>
-    Cadastrar Novo Usuário
-  </button>
+  <div class="header-buttons">
+    <button mat-raised-button color="primary" routerLink="/create">
+      <mat-icon>person_add</mat-icon>
+      Cadastrar Novo Usuário
+    </button>
+    <button mat-raised-button color="warn" (click)="logout()">
+      <mat-icon>logout</mat-icon>
+      Sair
+    </button>
+  </div>
 </div>
 
 <mat-card>
@@ -34,6 +40,11 @@
         <ng-container matColumnDef="lastName">
           <th mat-header-cell *matHeaderCellDef>Sobrenome</th>
           <td mat-cell *matCellDef="let user">{{ user.lastName }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef>Email</th>
+          <td mat-cell *matCellDef="let user">{{ user.email }}</td>
         </ng-container>
 
         <ng-container matColumnDef="department">

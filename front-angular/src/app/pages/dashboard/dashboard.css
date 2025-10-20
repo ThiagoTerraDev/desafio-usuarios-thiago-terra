@@ -13,6 +13,12 @@
   font-weight: 500;
 }
 
+.header-buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
 .header-container button mat-icon {
   margin-right: 0.5rem;
 }

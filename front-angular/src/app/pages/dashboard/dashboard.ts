@@ -10,11 +10,12 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialog } from '@angular/material/dialog';
 import { UserService } from '../../services/user.service';
+import { AuthService } from '../../services/auth.service';
 import { User } from '../../models/user';
 import { Delete } from '../../components/delete/delete';
 
 @Component({
-  selector: 'app-home',
+  selector: 'app-dashboard',
   imports: [
     RouterLink,
     MatButtonModule,
@@ -26,17 +27,18 @@ import { Delete } from '../../components/delete/delete';
     MatChipsModule,
     MatTooltipModule
   ],
-  templateUrl: './home.html',
-  styleUrl: './home.css'
+  templateUrl: './dashboard.html',
+  styleUrl: './dashboard.css'
 })
-export class Home implements OnInit {
+export class Dashboard implements OnInit {
 
   users: User[] = [];
   allUsers: User[] = [];
-  displayedColumns: string[] = ['status', 'name', 'lastName', 'department', 'actions'];
+  displayedColumns: string[] = ['status', 'name', 'lastName', 'email', 'department', 'actions'];
 
   constructor(
     private userService: UserService,
+    private authService: AuthService,
     private dialog: MatDialog
   ) { }
 
@@ -82,4 +84,7 @@ export class Home implements OnInit {
     });
   }
 
+  logout(): void {
+    this.authService.logout();
+  }
 }
