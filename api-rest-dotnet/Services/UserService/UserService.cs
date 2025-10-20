@@ -1,15 +1,20 @@
 using api_rest_dotnet.DataContext;
 using api_rest_dotnet.Models;
+using api_rest_dotnet.DTOs;
+using api_rest_dotnet.Services.PasswordService;
 using Microsoft.EntityFrameworkCore;
 
-namespace api_rest_dotnet.Service.UserService
+namespace api_rest_dotnet.Services.UserService
 {
   public class UserService : IUserService
   { 
     private readonly ApplicationDbContext _context;
-    public UserService(ApplicationDbContext context)
+    private readonly IPasswordService _passwordService;
+
+    public UserService(ApplicationDbContext context, IPasswordService passwordService)
     {
       _context = context;
+      _passwordService = passwordService;
     }
     public async Task<ServiceResponse<List<UserModel>>> GetUsers()
     {
@@ -31,26 +36,44 @@ namespace api_rest_dotnet.Service.UserService
       return serviceResponse;
     }
 
-    public async Task<ServiceResponse<UserModel>> CreateUser(UserModel newUser)
+    public async Task<ServiceResponse<UserModel>> CreateUserWithDto(CreateUserDto createUserDto)
     {
       ServiceResponse<UserModel> serviceResponse = new ServiceResponse<UserModel>();
 
-      try 
+      try
       {
-        if(newUser == null)
+        if (await _context.Users.AnyAsync(u => u.Email == createUserDto.Email))
         {
           serviceResponse.Data = null;
-          serviceResponse.Message = "Please provide user data!";
+          serviceResponse.Message = "Email já cadastrado!";
           serviceResponse.Success = false;
           return serviceResponse;
         }
+
+        string passwordHash = _passwordService.HashPassword(createUserDto.Password);
+
+        var newUser = new UserModel
+        {
+          Name = createUserDto.Name,
+          LastName = createUserDto.LastName,
+          Email = createUserDto.Email,
+          PasswordHash = passwordHash,
+          PasswordSalt = passwordHash,
+          Department = createUserDto.Department,
+          Shift = createUserDto.Shift,
+          Active = true,
+          CreatedAt = DateTime.UtcNow,
+          UpdatedAt = DateTime.UtcNow,
+          TokenCreatedAt = DateTime.UtcNow
+        };
 
         _context.Users.Add(newUser);
         await _context.SaveChangesAsync();
 
         serviceResponse.Data = newUser;
         serviceResponse.Message = "User created successfully!";
-      } catch (Exception ex)
+      }
+      catch (Exception ex)
       {
         serviceResponse.Message = ex.Message;
         serviceResponse.Success = false;
@@ -85,7 +108,7 @@ namespace api_rest_dotnet.Service.UserService
       return serviceResponse;
     }
 
-    public async Task<ServiceResponse<UserModel>> UpdateUser(UserModel updatedUser)
+    public async Task<ServiceResponse<UserModel>> UpdateUserWithDto(UpdateUserDto updatedUser)
     {
       ServiceResponse<UserModel> serviceResponse = new ServiceResponse<UserModel>();
 
@@ -101,10 +124,22 @@ namespace api_rest_dotnet.Service.UserService
           return serviceResponse;
         }
 
+        if (existingUser.Email != updatedUser.Email)
+        {
+          var emailExists = await _context.Users.AnyAsync(u => u.Email == updatedUser.Email && u.Id != updatedUser.Id);
+          if (emailExists)
+          {
+            serviceResponse.Data = null;
+            serviceResponse.Message = "Email/usuário já cadastrados!";
+            serviceResponse.Success = false;
+            return serviceResponse;
+          }
+        }
+
         existingUser.Name = updatedUser.Name;
         existingUser.LastName = updatedUser.LastName;
+        existingUser.Email = updatedUser.Email;
         existingUser.Department = updatedUser.Department;
-        existingUser.Active = updatedUser.Active;
         existingUser.Shift = updatedUser.Shift;
         existingUser.UpdatedAt = DateTime.UtcNow;
 
