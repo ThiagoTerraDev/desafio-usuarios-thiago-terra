@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Response } from '../models/response';
 import { User } from '../models/user';
+import { CreateUserRequest, UpdateUserRequest } from '../models/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -23,11 +24,11 @@ export class UserService {
     return this.http.get<Response<User>>(`${this.apiUrl}/${id}`);
   }
 
-  CreateUser(user: User) : Observable<Response<User>> {
+  CreateUser(user: CreateUserRequest) : Observable<Response<User>> {
     return this.http.post<Response<User>>(this.apiUrl, user);
   }
 
-  EditUser(user: User) : Observable<Response<User>> {
+  EditUser(user: UpdateUserRequest) : Observable<Response<User>> {
     return this.http.put<Response<User>>(this.apiUrl, user);
   }
 
