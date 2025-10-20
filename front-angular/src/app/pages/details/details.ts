@@ -55,7 +55,7 @@ export class Details implements OnInit {
       });
     } else {
       alert('Não foi possível carregar os dados do usuário.');
-      this.router.navigate(['/']);
+      this.router.navigate(['/dashboard']);
     }
   }
 
@@ -72,7 +72,7 @@ export class Details implements OnInit {
       next: (response) => {
         console.log('Resposta do backend:', response);
         alert('Usuário desativado com sucesso.');
-        this.router.navigate(['/']);
+        this.router.navigate(['/dashboard']);
       },
       error: (error) => {
         console.error('Error deactivating user:', error);

@@ -29,6 +29,12 @@
             <mat-label>Sobrenome</mat-label>
             <input matInput [value]="userData.lastName" readonly />
           </mat-form-field>
+
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Email</mat-label>
+            <input matInput [value]="userData.email" readonly />
+            <mat-icon matPrefix>email</mat-icon>
+          </mat-form-field>
         </div>
       </div>
 
@@ -69,7 +75,7 @@
       </div>
 
       <div class="actions-section">
-        <button mat-stroked-button routerLink="">
+        <button mat-stroked-button routerLink="/dashboard">
           <mat-icon>arrow_back</mat-icon>
           Voltar
         </button>
