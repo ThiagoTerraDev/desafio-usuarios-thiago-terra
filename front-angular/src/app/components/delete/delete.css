@@ -116,7 +116,6 @@ mat-dialog-actions button mat-spinner {
   margin-right: 0.5rem;
 }
 
-/* Responsividade */
 @media (max-width: 600px) {
   .delete-dialog {
     min-width: 100%;
