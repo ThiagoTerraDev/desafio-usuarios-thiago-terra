@@ -20,6 +20,54 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" formControlName="email" placeholder="usuario@exemplo.com" required />
+        <mat-icon matPrefix>email</mat-icon>
+        <mat-error>
+          @if (userForm.get('email')?.hasError('required')) {
+            Email é obrigatório
+          }
+          @if (userForm.get('email')?.hasError('email')) {
+            Email inválido
+          }
+        </mat-error>
+      </mat-form-field>
+
+      @if (!isEditMode) {
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Senha Provisória</mat-label>
+          <input
+            matInput
+            [type]="hidePassword ? 'password' : 'text'"
+            formControlName="password"
+            placeholder="Mínimo 6 caracteres"
+            required
+          />
+          <mat-icon matPrefix>lock</mat-icon>
+          <button
+            mat-icon-button
+            matSuffix
+            type="button"
+            (click)="hidePassword = !hidePassword"
+          >
+            <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          <mat-error>
+            @if (userForm.get('password')?.hasError('required')) {
+              Senha é obrigatória
+            }
+            @if (userForm.get('password')?.hasError('minlength')) {
+              Senha deve ter no mínimo 6 caracteres
+            }
+          </mat-error>
+        </mat-form-field>
+        <p class="password-info">
+          <mat-icon>info</mat-icon>
+          O usuário poderá alterar sua senha usando "Esqueci minha senha" no login.
+        </p>
+      }
+
+      <mat-form-field appearance="outline" class="full-width">
         <mat-label>Departamento</mat-label>
         <mat-select formControlName="department" required>
           <mat-option value="RH">RH</mat-option>
@@ -42,7 +90,7 @@
       </mat-form-field>
 
       <div class="btn-box">
-        <button mat-stroked-button type="button" routerLink="">
+        <button mat-stroked-button type="button" routerLink="/dashboard">
           Voltar
         </button>
         <button mat-raised-button color="primary" type="submit" [disabled]="!userForm.valid">
