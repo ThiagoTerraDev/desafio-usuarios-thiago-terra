@@ -1,9 +1,11 @@
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
-using api_rest_dotnet.Service.UserService;
+using api_rest_dotnet.Services.UserService;
+using api_rest_dotnet.DTOs;
 using System.Threading.Tasks;
 using api_rest_dotnet.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace api_rest_dotnet.Controllers
 {
@@ -17,6 +19,7 @@ namespace api_rest_dotnet.Controllers
       _userInterface = userInterface;
     }
 
+    [Authorize]
     [HttpGet]
     public async Task<ActionResult<ServiceResponse<List<UserModel>>>> GetUsers()
     {
@@ -41,12 +44,13 @@ namespace api_rest_dotnet.Controllers
       }
     }
 
+    [Authorize]
     [HttpPost]
-    public async Task<ActionResult<ServiceResponse<UserModel>>> CreateUser(UserModel newUser)
+    public async Task<ActionResult<ServiceResponse<UserModel>>> CreateUser(CreateUserDto createUserDto)
     {
       try
       {
-        var serviceResponse = await _userInterface.CreateUser(newUser);
+        var serviceResponse = await _userInterface.CreateUserWithDto(createUserDto);
         
         if (!serviceResponse.Success)
         {
@@ -69,6 +73,7 @@ namespace api_rest_dotnet.Controllers
       }
     }
 
+    [Authorize]
     [HttpGet("{id}")]
     public async Task<ActionResult<ServiceResponse<UserModel>>> GetUserById(int id)
     {
@@ -95,12 +100,13 @@ namespace api_rest_dotnet.Controllers
       }
     }
 
+    [Authorize]
     [HttpPut]
-    public async Task<ActionResult<ServiceResponse<UserModel>>> UpdateUser(UserModel updatedUser)
+    public async Task<ActionResult<ServiceResponse<UserModel>>> UpdateUser(UpdateUserDto updatedUser)
     {
       try
       {
-        var serviceResponse = await _userInterface.UpdateUser(updatedUser);
+        var serviceResponse = await _userInterface.UpdateUserWithDto(updatedUser);
         
         if (!serviceResponse.Success)
         {
@@ -121,6 +127,7 @@ namespace api_rest_dotnet.Controllers
       }
     }
 
+    [Authorize]
     [HttpPatch("{id}/deactivate")]
     public async Task<ActionResult<ServiceResponse<UserModel>>> DeactivateUser(int id)
     {
@@ -147,6 +154,7 @@ namespace api_rest_dotnet.Controllers
       }
     }
 
+    [Authorize]
     [HttpDelete("{id}")]
     public async Task<ActionResult<ServiceResponse<UserModel>>> DeleteUser(int id)
     {
