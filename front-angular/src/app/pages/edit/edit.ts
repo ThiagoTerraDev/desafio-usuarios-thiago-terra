@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserForm } from "../../components/user-form/user-form";
 import { User } from '../../models/user';
+import { UpdateUserRequest } from '../../models/auth';
 import { UserService } from '../../services/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -36,19 +37,29 @@ export class Edit implements OnInit{
       });
     } else {
       alert('Não foi possível carregar os dados do usuário.');
-      this.router.navigate(['/']);
+      this.router.navigate(['/dashboard']);
     }
   }
 
-  editUser(user: User): void {
-    this.userService.EditUser(user).subscribe({
+  editUser(user: any): void {
+    const updateUserDto: UpdateUserRequest = {
+      id: user.id,
+      name: user.name,
+      lastName: user.lastName,
+      email: user.email,
+      department: user.department,
+      shift: user.shift
+    };
+
+    this.userService.EditUser(updateUserDto).subscribe({
       next: (response) => {
         alert('Usuário editado com sucesso!');
-        this.router.navigate(['/']);
+        this.router.navigate(['/dashboard']);
       },
       error: (error) => {
         console.error('Error editing user:', error);
-        alert('Erro ao editar usuário.');
+        const errorMessage = error.error?.message || 'Erro ao editar usuário. Tente novamente.';
+        alert(errorMessage);
       },
       complete: () => {
         console.log('Request to edit user completed.');
