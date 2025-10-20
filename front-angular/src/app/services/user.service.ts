@@ -3,8 +3,7 @@ import { environment } from '../../environments/environment.development';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Response } from '../models/response';
-import { User } from '../models/user';
-import { CreateUserRequest, UpdateUserRequest } from '../models/auth';
+import { User, CreateUserRequest, UpdateUserRequest } from '../models/user';
 
 @Injectable({
   providedIn: 'root'

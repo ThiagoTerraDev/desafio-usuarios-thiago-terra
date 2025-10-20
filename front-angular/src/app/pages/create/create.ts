@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { UserForm } from "../../components/user-form/user-form";
-import { User } from '../../models/user';
-import { CreateUserRequest } from '../../models/auth';
+import { CreateUserRequest } from '../../models/user';
 import { UserService } from '../../services/user.service';
 import { Router } from '@angular/router';
 
