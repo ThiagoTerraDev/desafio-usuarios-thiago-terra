@@ -83,6 +83,21 @@ mat-form-field button[matSuffix] {
   gap: 0.5rem;
 }
 
+.forgot-password-link {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.forgot-password-link a {
+  color: var(--mat-sys-primary);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.forgot-password-link a:hover {
+  text-decoration: underline;
+}
+
 .signup-link {
   text-align: center;
   margin-top: 1.5rem;
