@@ -1,5 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { provideZoneChangeDetection } from '@angular/core';
+import { provideHttpClient } from '@angular/common/http';
+import { provideRouter } from '@angular/router';
 import { Edit } from './edit';
 
 describe('Edit', () => {
@@ -8,7 +10,12 @@ describe('Edit', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Edit]
+      imports: [Edit],
+      providers: [
+        provideZoneChangeDetection({ eventCoalescing: true }),
+        provideHttpClient(),
+        provideRouter([])
+      ]
     })
     .compileComponents();
 
