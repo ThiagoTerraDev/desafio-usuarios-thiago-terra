@@ -2,14 +2,16 @@
   display: block;
   min-height: 100vh;
   background: linear-gradient(135deg, #424242 0%, #00838f 100%);
-  padding: 1rem 0;
+  padding: 2rem 1rem;
 }
 
 .header-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 2rem 2rem 1rem 2rem;
+  max-width: 1400px;
+  margin: 0 auto 1rem auto;
+  padding: 0 1rem;
   flex-wrap: wrap;
   gap: 1rem;
 }
@@ -18,6 +20,7 @@
   margin: 0;
   font-size: 2rem;
   font-weight: 500;
+  color: white;
 }
 
 .header-buttons {
@@ -31,7 +34,8 @@
 }
 
 mat-card {
-  margin: 0 2rem 2rem 2rem;
+  max-width: 1400px;
+  margin: 0 auto 2rem auto;
 }
 
 mat-card-content {

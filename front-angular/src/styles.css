@@ -17,9 +17,8 @@ body {
 
 app-root {
   display: block;
-  max-width: 1440px;
-  margin: 0 auto;
-  background-color: var(--mat-sys-surface-container-low);
+  width: 100%;
+  min-height: 100vh;
 }
 
 .mat-mdc-raised-button,
