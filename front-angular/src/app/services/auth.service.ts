@@ -67,6 +67,14 @@ export class AuthService {
     this.router.navigate(['/login']);
   }
 
+  forgotPassword(request: { email: string }): Observable<Response<string>> {
+    return this.http.post<Response<string>>(`${this.apiUrl}/forgot-password`, request);
+  }
+
+  resetPassword(request: { token: string; password: string; confirmPassword: string }): Observable<Response<boolean>> {
+    return this.http.post<Response<boolean>>(`${this.apiUrl}/reset-password`, request);
+  }
+
   private setCurrentUser(user: AuthResponse): void {
     localStorage.setItem('currentUser', JSON.stringify(user));
     this.currentUserSubject.next(user);
