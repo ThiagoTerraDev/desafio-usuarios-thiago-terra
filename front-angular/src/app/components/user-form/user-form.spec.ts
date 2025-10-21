@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { provideZoneChangeDetection } from '@angular/core';
+import { provideRouter } from '@angular/router';
 import { UserForm } from './user-form';
 
 describe('UserForm', () => {
@@ -8,7 +9,11 @@ describe('UserForm', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [UserForm]
+      imports: [UserForm],
+      providers: [
+        provideZoneChangeDetection({ eventCoalescing: true }),
+        provideRouter([])
+      ]
     })
     .compileComponents();
 

@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { provideHttpClient } from '@angular/common/http';
+import { provideZoneChangeDetection } from '@angular/core';
 import { Delete } from './delete';
 import { User } from '../../models/user';
 
@@ -12,6 +13,7 @@ describe('Delete', () => {
     id: 1,
     name: 'Test',
     lastName: 'User',
+    email: 'test@test.com',
     department: 'TI',
     shift: 'Manhã',
     active: true
@@ -25,6 +27,7 @@ describe('Delete', () => {
     await TestBed.configureTestingModule({
       imports: [Delete],
       providers: [
+        provideZoneChangeDetection({ eventCoalescing: true }),
         provideHttpClient(),
         { provide: MAT_DIALOG_DATA, useValue: mockUser },
         { provide: MatDialogRef, useValue: mockDialogRef }
