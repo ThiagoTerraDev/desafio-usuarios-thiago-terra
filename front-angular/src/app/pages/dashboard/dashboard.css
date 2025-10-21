@@ -1,3 +1,10 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #424242 0%, #00838f 100%);
+  padding: 1rem 0;
+}
+
 .header-container {
   display: flex;
   justify-content: space-between;
