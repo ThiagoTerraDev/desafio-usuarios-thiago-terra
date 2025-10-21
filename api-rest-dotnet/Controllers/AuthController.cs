@@ -71,41 +71,38 @@ namespace api_rest_dotnet.Controllers
       }
     }
 
-    // [ABAIXO] Pendente de implementação!
     /// <summary>
     /// Inicia o processo de recuperação de senha
     /// </summary>
     /// <param name="forgotPasswordDto">Email do usuário</param>
     /// <returns>Link para reset de senha (será logado no console)</returns>
-    /// <response code="200">Email de recuperação enviado</response>
-    /// <response code="404">Email não encontrado</response>
-    // [HttpPost("forgot-password")]
-    // [ProducesResponseType(StatusCodes.Status200OK)]
-    // [ProducesResponseType(StatusCodes.Status404NotFound)]
-    // public async Task<ActionResult> ForgotPassword([FromBody] ForgotPasswordDto forgotPasswordDto)
-    // {
-    //   try
-    //   {
-    //     if (!ModelState.IsValid)
-    //     {
-    //       return BadRequest(ModelState);
-    //     }
-
-    //     var resetLink = await _authService.ForgotPasswordAsync(forgotPasswordDto);
-    //     
-    //     // Loga o link no console em vez de enviar email
-    //     Console.WriteLine("===========================================");
-    //     Console.WriteLine("LINK DE RESET DE SENHA:");
-    //     Console.WriteLine(resetLink);
-    //     Console.WriteLine("===========================================");
-
-    //     return Ok(new { message = "Link de reset de senha gerado (verifique o console)" });
-    //   }
-    //   catch (Exception ex)
-    //   {
-    //     return NotFound(new { message = ex.Message });
-    //   }
-    // }
+    /// <response code="200">Link de recuperação gerado (verifique o console do servidor)</response>
+    /// <response code="400">Dados inválidos</response>
+    [HttpPost("forgot-password")]
+    [ProducesResponseType(typeof(ServiceResponse<string>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> ForgotPassword(ForgotPasswordDto forgotPasswordDto)
+    {
+      try
+      {
+        var serviceResponse = await _authService.ForgotPassword(forgotPasswordDto);
+        
+        if (!serviceResponse.Success)
+        {
+          return BadRequest(serviceResponse);
+        }
+        
+        return Ok(serviceResponse);
+      } catch (Exception)
+      {
+        return StatusCode(500, new ServiceResponse<string>
+        {
+          Data = null,
+          Message = "Internal server error",
+          Success = false
+        });
+      }
+    }
 
     /// <summary>
     /// Finaliza o processo de reset de senha
@@ -114,31 +111,30 @@ namespace api_rest_dotnet.Controllers
     /// <returns>Confirmação de senha alterada</returns>
     /// <response code="200">Senha alterada com sucesso</response>
     /// <response code="400">Token inválido ou expirado</response>
-    // [HttpPost("reset-password")]
-    // [ProducesResponseType(StatusCodes.Status200OK)]
-    // [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    // public async Task<ActionResult> ResetPassword([FromBody] ResetPasswordDto resetPasswordDto)
-    // {
-    //   try
-    //   {
-    //     if (!ModelState.IsValid)
-    //     {
-    //       return BadRequest(ModelState);
-    //     }
-
-    //     var result = await _authService.ResetPasswordAsync(resetPasswordDto);
-    //     
-    //     if (result)
-    //     {
-    //       return Ok(new { message = "Senha alterada com sucesso!" });
-    //     }
-    //     
-    //     return BadRequest(new { message = "Falha ao alterar senha" });
-    //   }
-    //   catch (Exception ex)
-    //   {
-    //     return BadRequest(new { message = ex.Message });
-    //   }
-    // }
+    [HttpPost("reset-password")]
+    [ProducesResponseType(typeof(ServiceResponse<bool>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> ResetPassword(ResetPasswordDto resetPasswordDto)
+    {
+      try
+      {
+        var serviceResponse = await _authService.ResetPassword(resetPasswordDto);
+        
+        if (!serviceResponse.Success)
+        {
+          return BadRequest(serviceResponse);
+        }
+        
+        return Ok(serviceResponse);
+      } catch (Exception)
+      {
+        return StatusCode(500, new ServiceResponse<bool>
+        {
+          Data = false,
+          Message = "Internal server error",
+          Success = false
+        });
+      }
+    }
   }
 }

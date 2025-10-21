@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using System.Text.Json;
 using api_rest_dotnet.DataContext;
 using api_rest_dotnet.Services.UserService;
 using api_rest_dotnet.Services.PasswordService;
@@ -11,7 +12,12 @@ using api_rest_dotnet.Services.AuthService;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+// Configura serialização JSON para camelCase (padrão JavaScript/TypeScript)
+builder.Services.AddControllers()
+  .AddJsonOptions(options =>
+  {
+    options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+  });
 
 builder.Services.AddEndpointsApiExplorer();
 
