@@ -7,7 +7,7 @@ namespace api_rest_dotnet.Services.AuthService
   {
     Task<ServiceResponse<AuthResponseDto>> SignUp(SignupDto signupDto);
     Task<ServiceResponse<AuthResponseDto>> Login(LoginDto loginDto);
-    // Task<string> ForgotPasswordAsync(ForgotPasswordDto forgotPasswordDto);
-    // Task<bool> ResetPasswordAsync(ResetPasswordDto resetPasswordDto);
+    Task<ServiceResponse<string>> ForgotPassword(ForgotPasswordDto forgotPasswordDto);
+    Task<ServiceResponse<bool>> ResetPassword(ResetPasswordDto resetPasswordDto);
   }
 }
