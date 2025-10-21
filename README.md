@@ -104,6 +104,9 @@ O modelo `UserModel` contém os seguintes campos:
      "ConnectionStrings": {
        "DefaultConnection": "Data Source=localhost,1433;Initial Catalog=User;User Id=sa;Password=SuaSenhaForte123!;Encrypt=false;TrustServerCertificate=true"
      },
+     "AppSettings": {
+       "Token": "GENERATE_YOUR_OWN_SECRET_KEY_AT_LEAST_64_CHARACTERS_LONG_FOR_HMAC_SHA512"
+      },
      "AllowedHosts": "*"
    }
    ```
@@ -186,10 +189,6 @@ Para executar tanto o backend quanto o frontend:
    ng serve
    ```
 
-3. **Acesse**:
-   - Frontend: `http://localhost:4200`
-   - API (Swagger): `http://localhost:5127/swagger`
-
 ## 🔧 Setup Geral
 
 ### Conexão com o Banco de Dados
@@ -214,17 +213,7 @@ Por padrão, este projeto está configurado para usar **HTTP** em desenvolviment
 - **HTTP**: `http://localhost:5127` (padrão configurado)
 - **HTTPS**: `https://localhost:7183` (disponível, mas requer configuração)
 
-#### ✅ Configuração Padrão: HTTP
-
-O projeto já está configurado para usar HTTP. Basta executar os comandos e tudo funcionará:
-
-- **Backend**: `http://localhost:5127`
-- **Swagger**: `http://localhost:5127/swagger`
-- **Frontend**: `http://localhost:4200` (conecta ao backend via HTTP)
-
-**Nenhuma configuração adicional necessária!**
-
-#### 🔒 Alternativa: Usar HTTPS
+#### 🔒 Para Usar HTTPS (Opcional)
 
 Se você preferir usar HTTPS (protocolo mais seguro para produção), siga estes passos:
 
@@ -270,12 +259,6 @@ Se você preferir usar HTTPS (protocolo mais seguro para produção), siga estes
    - Swagger: `https://localhost:7183/swagger`
    - Frontend: `http://localhost:4200` (conecta ao backend via HTTPS)
 
-## 📚 Documentação da API
-
-Após iniciar a aplicação, você pode acessar a documentação interativa da API através do Swagger UI em:
-- `http://localhost:5127/swagger` (HTTP - padrão)
-- `https://localhost:7183/swagger` (HTTPS - requer configuração adicional)
-
 ## 🛠️ Desenvolvimento
 
 ### Adicionar Novas Migrações
@@ -296,14 +279,11 @@ dotnet ef database update
 dotnet build
 ```
 
-### Executar em Modo de Desenvolvimento
-
-```bash
-dotnet run
-```
-
 ## 👨‍💻 Autor
 
 **Thiago Terra**
 - LinkedIn: [Thiago Terra](https://www.linkedin.com/in/thiago-terra-158a71266/)
 - GitHub: [@ThiagoTerraDev](https://github.com/ThiagoTerraDev)
+
+<!-- Adicionar que estou salvando PasswordSalt identico a PasswordHash porque, hoje em dia, o projeto usa bcrypt e ele já lida automaticamente com Salt -->
+<!-- Mas isso pode mudar futuramente, então por enquanto estou fazendo assim. -->
