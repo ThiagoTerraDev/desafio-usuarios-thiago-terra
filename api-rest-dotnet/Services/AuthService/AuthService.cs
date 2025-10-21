@@ -119,14 +119,98 @@ namespace api_rest_dotnet.Services.AuthService
       return serviceResponseAuth;
     }
 
-    // public async Task<string> ForgotPasswordAsync(ForgotPasswordDto forgotPasswordDto)
-    // {
-    //   throw new NotImplementedException("ForgotPassword será implementado no próximo passo");
-    // }
+    public async Task<ServiceResponse<string>> ForgotPassword(ForgotPasswordDto forgotPasswordDto)
+    {
+      ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
 
-    // public async Task<bool> ResetPasswordAsync(ResetPasswordDto resetPasswordDto)
-    // {
-    //   throw new NotImplementedException("ResetPassword será implementado no próximo passo");
-    // }
+      try
+      {
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == forgotPasswordDto.Email);
+
+        if (user == null)
+        {
+          serviceResponse.Data = null;
+          serviceResponse.Message = "Se o email existir, um link de redefinição será enviado.";
+          serviceResponse.Success = true;
+          return serviceResponse;
+        }
+
+        var resetToken = Guid.NewGuid().ToString();
+        
+        user.ResetPasswordToken = resetToken;
+        user.ResetPasswordTokenExpires = DateTime.UtcNow.AddHours(1);
+        user.UpdatedAt = DateTime.UtcNow;
+
+        await _context.SaveChangesAsync();
+
+        var resetLink = $"http://localhost:4200/reset-password?token={resetToken}";
+        Console.WriteLine("========================================");
+        Console.WriteLine("📧 RESET PASSWORD LINK (Console Output)");
+        Console.WriteLine("========================================");
+        Console.WriteLine($"User: {user.Email}");
+        Console.WriteLine($"Link: {resetLink}");
+        Console.WriteLine($"Token expira em: {user.ResetPasswordTokenExpires:dd/MM/yyyy HH:mm:ss} UTC");
+        Console.WriteLine("========================================");
+
+        serviceResponse.Data = resetToken;
+        serviceResponse.Message = "Se o email existir, um link de redefinição será enviado.";
+        serviceResponse.Success = true;
+      } catch (Exception ex)
+      {
+        serviceResponse.Data = null;
+        serviceResponse.Message = ex.Message;
+        serviceResponse.Success = false;
+      }
+
+      return serviceResponse;
+    }
+
+    public async Task<ServiceResponse<bool>> ResetPassword(ResetPasswordDto resetPasswordDto)
+    {
+      ServiceResponse<bool> serviceResponse = new ServiceResponse<bool>();
+
+      try
+      {
+        var user = await _context.Users.FirstOrDefaultAsync(u => 
+          u.ResetPasswordToken == resetPasswordDto.Token &&
+          u.ResetPasswordTokenExpires > DateTime.UtcNow
+        );
+
+        if (user == null)
+        {
+          serviceResponse.Data = false;
+          serviceResponse.Message = "Token inválido ou expirado.";
+          serviceResponse.Success = false;
+          return serviceResponse;
+        }
+
+        user.PasswordHash = _passwordInterface.HashPassword(resetPasswordDto.Password);
+        user.PasswordSalt = user.PasswordHash;
+        
+        user.ResetPasswordToken = null;
+        user.ResetPasswordTokenExpires = null;
+        user.UpdatedAt = DateTime.UtcNow;
+
+        await _context.SaveChangesAsync();
+
+        Console.WriteLine("========================================");
+        Console.WriteLine("✅ PASSWORD RESET SUCCESSFUL");
+        Console.WriteLine("========================================");
+        Console.WriteLine($"User: {user.Email}");
+        Console.WriteLine($"Reset at: {DateTime.UtcNow:dd/MM/yyyy HH:mm:ss} UTC");
+        Console.WriteLine("========================================");
+
+        serviceResponse.Data = true;
+        serviceResponse.Message = "Senha redefinida com sucesso!";
+        serviceResponse.Success = true;
+      } catch (Exception ex)
+      {
+        serviceResponse.Data = false;
+        serviceResponse.Message = ex.Message;
+        serviceResponse.Success = false;
+      }
+
+      return serviceResponse;
+    }
   }
 }
