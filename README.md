@@ -19,6 +19,56 @@ Aplicação Full Stack com: autenticação JWT, operações CRUD, Backend em ASP
 - ✅ **Validação** de formulários
 - ✅ **Interface moderna** com gradientes
 
+## ✨ Execução Rápida
+
+### 📋 Pré-requisitos
+Certifique-se de ter instalado:
+- **Docker** (para executar o banco de dados)
+- **.NET 9.0 SDK** 
+- **Node.js 20.19 LTS**
+
+### 1. Backend
+```bash
+# 1. Iniciar Azure SQL Edge (Docker deve estar rodando)
+docker run -e ACCEPT_EULA=1 -e MSSQL_SA_PASSWORD=SuaSenha123! -p 1433:1433 --name sqlserver -d mcr.microsoft.com/azure-sql-edge
+
+# 2. Verificar se container está ativo
+docker ps
+
+# 3. Configurar ambiente
+cd api-rest-dotnet && cp appsettings.Development.json.example appsettings.Development.json
+
+# 4. Instalar Dependências
+dotnet restore
+# Instalar Entity Framework Tools globalmente (necessário para comandos 'dotnet ef')
+dotnet tool install --global dotnet-ef
+
+# 5. Executar migrações e iniciar
+dotnet ef database update && dotnet run
+```
+
+### 2. Frontend
+```bash
+# 1. Navegar para pasta do frontend
+cd front-angular
+
+# 2. Usar versão correta do Node.js (se nvm estiver instalado)
+nvm use  # Instala/usa Node.js 20.19 automaticamente (observa arquivo .nvmrc)
+# Se nvm não estiver instalado, certifique-se de ter Node.js 20.19+ instalado
+
+# 3. Instalar dependências
+npm install
+
+# 4. Iniciar servidor
+npm start
+```
+
+### 3. Acessar
+- **Frontend:** http://localhost:4200
+- **API Docs:** http://localhost:5127/swagger
+
+**🎉 Faça seu cadastro e comece a usar a aplicação!**
+
 ## 🖼️ Screenshots
 
 ### Interface Principal
@@ -123,52 +173,12 @@ UserModel {
 }
 ```
 
-## ✨ Execução Rápida
-
-### 1. Backend
-```bash
-# 1. Iniciar SQL Server (Docker deve estar rodando)
-docker run -e ACCEPT_EULA=1 -e MSSQL_SA_PASSWORD=SuaSenha123! -p 1433:1433 --name sqlserver -d mcr.microsoft.com/azure-sql-edge
-
-# 2. Verificar se container está rodando
-docker ps
-
-# 3. Configurar ambiente
-cd api-rest-dotnet
-cp appsettings.Development.json.example appsettings.Development.json
-
-# 4. Editar appsettings.Development.json (arquivo criado automaticamente via comando anterior)
-# - Substitua "SuaSenha123!" pela senha definida no primeiro passo (Docker)
-# - Mantenha a connection string como está
-
-# 5. Executar migrações e iniciar
-dotnet ef database update
-dotnet run
-```
-
-### 2. Frontend
-```bash
-# 1. Usar versão correta do Node.js
-cd front-angular
-nvm use  # Instala/usa Node.js 20.19 automaticamente (observa arquivo .nvmrc)
-
-# 2. Instalar dependências
-npm install
-
-# 3. Iniciar servidor
-ng serve
-```
-
-### 3. Acessar
-- **Frontend:** http://localhost:4200
-- **API Docs:** http://localhost:5127/swagger
-
 ## 🧪 Testes Unitários
 
 ### Frontend (Angular)
 ```bash
 cd front-angular
-ng test
+npm run test
 ```
 - **Cobertura:** AuthService
 - **Frameworks:** Jasmine + Karma
@@ -219,11 +229,11 @@ dotnet ef database update
 
 # Build
 dotnet build
-ng build
+npm run build
 
 # Testes
 dotnet test
-ng test
+npm run test
 ```
 
 ## 👨‍💻 Autor
