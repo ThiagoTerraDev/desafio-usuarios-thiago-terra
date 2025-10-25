@@ -27,6 +27,12 @@ Certifique-se de ter instalado:
 - **.NET 9.0 SDK** 
 - **Node.js 20.19 LTS**
 
+### 📥 Clonar Repositório
+```bash
+git clone <URL_DO_REPOSITORIO>
+cd desafio-usuarios-thiago-terra
+```
+
 ### 1. Backend
 ```bash
 # 1. Iniciar Azure SQL Edge (Docker deve estar rodando)
@@ -49,7 +55,7 @@ dotnet ef database update && dotnet run
 
 ### 2. Frontend
 ```bash
-# 1. Navegar para pasta do frontend
+# 1. Abrir um novo terminal e navegar para pasta do frontend
 cd front-angular
 
 # 2. Usar versão correta do Node.js (se nvm estiver instalado)
@@ -68,6 +74,35 @@ npm start
 - **API Docs:** http://localhost:5127/swagger
 
 **🎉 Faça seu cadastro e comece a usar a aplicação!**
+
+## 🧪 Testes Unitários
+
+### Frontend (Angular)
+```bash
+# 1. Abrir um novo terminal e navegar para pasta do frontend
+cd front-angular
+
+# 2. Usar versão correta do Node.js (se nvm estiver instalado)
+nvm use  # Instala/usa Node.js 20.19 automaticamente (observa arquivo .nvmrc)
+# Se nvm não estiver instalado, certifique-se de ter Node.js 20.19+ instalado
+
+# 3. Executar testes
+npm run test
+```
+- **Cobertura:** AuthService
+- **Frameworks:** Jasmine + Karma
+- **Resultado:** Uma nova aba/janela do navegador será aberta com Karma - Jasmine exibindo os resultados dos testes
+
+### Backend (.NET)
+```bash
+# 1. Abrir um novo terminal e navegar para pasta de testes
+cd api-rest-dotnet.Tests
+
+# 2. Executar testes
+dotnet test
+```
+- **Cobertura:** PasswordService, TokenService
+- **Frameworks:** xUnit + Moq
 
 ## 🖼️ Screenshots
 
@@ -172,24 +207,6 @@ UserModel {
   UpdatedAt: DateTime
 }
 ```
-
-## 🧪 Testes Unitários
-
-### Frontend (Angular)
-```bash
-cd front-angular
-npm run test
-```
-- **Cobertura:** AuthService
-- **Frameworks:** Jasmine + Karma
-
-### Backend (.NET)
-```bash
-cd api-rest-dotnet.Tests
-dotnet test
-```
-- **Cobertura:** PasswordService, TokenService
-- **Frameworks:** xUnit + Moq
 
 ## 🌐 Testes Crossbrowser
 
