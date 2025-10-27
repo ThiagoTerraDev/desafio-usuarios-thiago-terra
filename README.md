@@ -49,6 +49,8 @@ dotnet restore
 # Instalar Entity Framework Tools globalmente (necessário para comandos 'dotnet ef')
 dotnet tool install --global dotnet-ef
 
+# ⚠️ IMPORTANTE: Feche e reabra o terminal/IDE antes de continuar (garante atualização do PATH)
+
 # 5. Executar migrações e iniciar
 dotnet ef database update && dotnet run
 ```
@@ -58,8 +60,9 @@ dotnet ef database update && dotnet run
 # 1. Abrir um novo terminal e navegar para pasta do frontend
 cd front-angular
 
-# 2. Usar versão correta do Node.js (se nvm estiver instalado)
-nvm use  # Instala/usa Node.js 20.19 automaticamente (observa arquivo .nvmrc)
+# 2. Instalar e usar versão correta do Node.js (se nvm estiver instalado) 
+nvm install 20.19  # Instala versão especificada no arquivo .nvmrc 
+nvm use 20.19      # Nota: comando anterior pode retornar 20.19.x - ajuste conforme necessário 
 # Se nvm não estiver instalado, certifique-se de ter Node.js 20.19+ instalado
 
 # 3. Instalar dependências
@@ -82,8 +85,9 @@ npm start
 # 1. Abrir um novo terminal e navegar para pasta do frontend
 cd front-angular
 
-# 2. Usar versão correta do Node.js (se nvm estiver instalado)
-nvm use  # Instala/usa Node.js 20.19 automaticamente (observa arquivo .nvmrc)
+# 2. Instalar e usar versão correta do Node.js (se nvm estiver instalado)
+nvm install 20.19  # Instala versão especificada no arquivo .nvmrc
+nvm use 20.19      # Ativa versão instalada
 # Se nvm não estiver instalado, certifique-se de ter Node.js 20.19+ instalado
 
 # 3. Executar testes
